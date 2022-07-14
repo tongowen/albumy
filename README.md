@@ -7,6 +7,8 @@ create & activate virtual env then install dependency:
 with venv/virtualenv + pip:
 
 ```sh
+pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+
 python -m venv .env
 source .env/bin/activate  # use `source .env\Scripts\activate` on Windows
 pip install -r requirements.txt
