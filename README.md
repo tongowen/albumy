@@ -18,7 +18,7 @@ generate fake data then run:
 
 ```sh
 flask forge
-flask run
+flask run #
 
 # Running on http://127.0.0.1:5000/
 ```

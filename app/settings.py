@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-    :author: Grey Li (李辉)
-    :url: http://greyli.com
-    :copyright: © 2018 Grey Li <withlihui@gmail.com>
-    :license: MIT, see LICENSE for more details.
-"""
+
 import os
 import sys
 
@@ -45,7 +40,7 @@ class BaseConfig:
     }
 
     SECRET_KEY = os.getenv('SECRET_KEY', 'secret string')
-    MAX_CONTENT_LENGTH = 3 * 1024 * 1024  # file size exceed to 3 Mb will return a 413 error response.
+    MAX_CONTENT_LENGTH = 1024 * 1024 * 1024  # file size exceed to 1 Gb will return a 413 error response.
 
     BOOTSTRAP_SERVE_LOCAL = True
 
@@ -54,11 +49,11 @@ class BaseConfig:
     AVATARS_SAVE_PATH = os.path.join(ALBUMY_UPLOAD_PATH, 'avatars')
     AVATARS_SIZE_TUPLE = (30, 100, 200)
 
-    MAIL_SERVER = os.getenv('MAIL_SERVER')
-    MAIL_PORT = 465
-    MAIL_USE_SSL = True
-    MAIL_USERNAME = os.getenv('MAIL_USERNAME')
-    MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
+    MAIL_SERVER = "smtp.qq.com"
+    MAIL_PORT = 587
+    MAIL_USE_SSL = False
+    MAIL_USERNAME = "846565422@qq.com"
+    MAIL_PASSWORD = os.getenv('MAIL_PASSWORD') #
     MAIL_DEFAULT_SENDER = ('Albumy Admin', MAIL_USERNAME)
 
     DROPZONE_ALLOWED_FILE_TYPE = 'image'
