@@ -12,14 +12,14 @@ from flask import Flask, render_template
 from flask_login import current_user
 from flask_wtf.csrf import CSRFError
 
-from albumy.blueprints.admin import admin_bp
-from albumy.blueprints.ajax import ajax_bp
-from albumy.blueprints.auth import auth_bp
-from albumy.blueprints.main import main_bp
-from albumy.blueprints.user import user_bp
-from albumy.extensions import bootstrap, db, login_manager, mail, dropzone, moment, whooshee, avatars, csrf
-from albumy.models import Role, User, Photo, Tag, Follow, Notification, Comment, Collect, Permission
-from albumy.settings import config
+from app.blueprints.admin import admin_bp
+from app.blueprints.ajax import ajax_bp
+from app.blueprints.auth import auth_bp
+from app.blueprints.main import main_bp
+from app.blueprints.user import user_bp
+from app.extensions import bootstrap, db, login_manager, mail, dropzone, moment, whooshee, avatars, csrf
+from app.models import Role, User, Photo, Tag, Follow, Notification, Comment, Collect, Permission
+from app.settings import config
 
 
 def create_app(config_name=None):
@@ -137,7 +137,7 @@ def register_commands(app):
     def forge(user, follow, photo, tag, collect, comment):
         """Generate fake data."""
 
-        from albumy.fakes import fake_admin, fake_comment, fake_follow, fake_photo, fake_tag, fake_user, fake_collect
+        from app.fakes import fake_admin, fake_comment, fake_follow, fake_photo, fake_tag, fake_user, fake_collect
 
         db.drop_all()
         db.create_all()

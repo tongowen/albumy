@@ -8,11 +8,11 @@
 from flask import render_template, flash, Blueprint, request, current_app
 from flask_login import login_required
 
-from albumy.decorators import admin_required, permission_required
-from albumy.extensions import db
-from albumy.forms.admin import EditProfileAdminForm
-from albumy.models import Role, User, Tag, Photo, Comment
-from albumy.utils import redirect_back
+from app.decorators import admin_required, permission_required
+from app.extensions import db
+from app.forms.admin import EditProfileAdminForm
+from app.models import Role, User, Tag, Photo, Comment
+from app.utils import redirect_back
 
 admin_bp = Blueprint('admin', __name__)
 

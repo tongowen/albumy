@@ -8,15 +8,15 @@
 from flask import render_template, flash, redirect, url_for, current_app, request, Blueprint
 from flask_login import login_required, current_user, fresh_login_required, logout_user
 
-from albumy.decorators import confirm_required, permission_required
-from albumy.emails import send_change_email_email
-from albumy.extensions import db, avatars
-from albumy.forms.user import EditProfileForm, UploadAvatarForm, CropAvatarForm, ChangeEmailForm, \
+from app.decorators import confirm_required, permission_required
+from app.emails import send_change_email_email
+from app.extensions import db, avatars
+from app.forms.user import EditProfileForm, UploadAvatarForm, CropAvatarForm, ChangeEmailForm, \
     ChangePasswordForm, NotificationSettingForm, PrivacySettingForm, DeleteAccountForm
-from albumy.models import User, Photo, Collect
-from albumy.notifications import push_follow_notification
-from albumy.settings import Operations
-from albumy.utils import generate_token, validate_token, redirect_back, flash_errors
+from app.models import User, Photo, Collect
+from app.notifications import push_follow_notification
+from app.settings import Operations
+from app.utils import generate_token, validate_token, redirect_back, flash_errors
 
 user_bp = Blueprint('user', __name__)
 

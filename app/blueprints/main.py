@@ -12,12 +12,12 @@ from flask import render_template, flash, redirect, url_for, current_app, \
 from flask_login import login_required, current_user
 from sqlalchemy.sql.expression import func
 
-from albumy.decorators import confirm_required, permission_required
-from albumy.extensions import db
-from albumy.forms.main import DescriptionForm, TagForm, CommentForm
-from albumy.models import User, Photo, Tag, Follow, Collect, Comment, Notification
-from albumy.notifications import push_comment_notification, push_collect_notification
-from albumy.utils import rename_image, resize_image, redirect_back, flash_errors
+from app.decorators import confirm_required, permission_required
+from app.extensions import db
+from app.forms.main import DescriptionForm, TagForm, CommentForm
+from app.models import User, Photo, Tag, Follow, Collect, Comment, Notification
+from app.notifications import push_comment_notification, push_collect_notification
+from app.utils import rename_image, resize_image, redirect_back, flash_errors
 
 main_bp = Blueprint('main', __name__)
 

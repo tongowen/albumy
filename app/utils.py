@@ -19,9 +19,9 @@ from flask import current_app, request, url_for, redirect, flash
 from itsdangerous import BadSignature, SignatureExpired
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
-from albumy.extensions import db
-from albumy.models import User
-from albumy.settings import Operations
+from app.extensions import db
+from app.models import User
+from app.settings import Operations
 
 
 def generate_token(user, operation, expire_in=None, **kwargs):
