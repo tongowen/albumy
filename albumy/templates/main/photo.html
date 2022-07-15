@@ -5,6 +5,15 @@
 {% block title %}{{ photo.author.name }}'s Photo{% endblock %}
 
 {% block content %}
+
+	<script type="text/javascript">
+		function copy() {
+			var e = document.getElementById("share_url");
+			e.select(); // 选择对象
+			document.execCommand("Copy"); // 执行浏览器复制命令
+			alert("复制成功！");
+		}
+	</script>
     <div class="row">
         <div class="col-md-8">
             <div class="photo">
@@ -43,8 +52,13 @@
                     </button>
                 </div>
                 <div class="modal-body w-100">
-                    <input class="form-control" value="{{ url_for('.show_photo', photo_id=photo.id, _external=True) }}"
-                           readonly>
+                    <input 
+						id="share_url"
+						class="form-control" 
+						value="{{ url_for('.show_photo', photo_id=photo.id, _external=True) }}"
+						readonly
+					>
+					<input type="button" onclick="copy();" value="复制"></input>
                 </div>
             </div>
         </div>
