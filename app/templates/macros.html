@@ -38,7 +38,7 @@
                 <form class="inline" method="post"
                       action="{{ url_for('user.follow', username=user.username, next=request.full_path) }}">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                    <button type="submit" class="btn btn-primary btn-sm">Follow</button>
+                    <button type="submit" class="btn btn-primary btn-sm">关注</button>
                     {% if current_user.is_followed_by(user) %}
                         <p class="badge badge-light">Follows you</p>
                     {% endif %}
@@ -49,7 +49,7 @@
         <form class="inline" method="post"
               action="{{ url_for('user.follow', username=user.username) }}">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-            <button type="submit" class="btn btn-primary btn-sm">Follow</button>
+            <button type="submit" class="btn btn-primary btn-sm">关注</button>
         </form>
     {% endif %}
 {% endmacro %}

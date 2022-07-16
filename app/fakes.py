@@ -27,7 +27,7 @@ def fake_admin():
                  website='http://greyli.com',
                  confirmed=True)
     admin.set_password('helloflask')
-    notification = Notification(message='Hello, welcome to Albumy.', receiver=admin)
+    notification = Notification(message='Hello, welcome to 篮球之境.', receiver=admin)
     db.session.add(notification)
     db.session.add(admin)
     db.session.commit()

@@ -1,6 +1,6 @@
 Hello {{ user.username }},
 
-Welcome to Albumy!
+Welcome to 篮球之境!
 
 Please visit the link below to verify your email address:
 

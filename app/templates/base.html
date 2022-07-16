@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     {% block head %}
-        <title>{% block title %}{% endblock %} - Albumy</title>
+        <title>{% block title %}{% endblock %} - 篮球之境</title>
         <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
         {% block styles %}
             <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
@@ -21,7 +21,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
             <a class="navbar-brand" href="{{ url_for('main.index') }}">
-                <img src="{{ url_for('static', filename='favicon.ico') }}" alt="Albumy">
+                <img src="{{ url_for('static', filename='favicon.ico') }}" alt="篮球之境">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
                     aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,10 +30,10 @@
 
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <div class="navbar-nav mr-auto">
-                    {{ render_nav_item('main.index', 'Home') }}
-                    {{ render_nav_item('main.explore', 'Explore') }}
+                    {{ render_nav_item('main.index', '主页') }}
+                    {{ render_nav_item('main.explore', '探索') }}
                     <form class="form-inline my-2 my-lg-0" action="{{ url_for('main.search') }}">
-                        <input type="text" name="q" class="form-control mr-sm-1" placeholder="Photo, tag or user"
+                        <input type="text" name="q" class="form-control mr-sm-1" placeholder="照片，标签，用户"
                                required>
                         <button class="btn btn-light my-2 my-sm-0" type="submit">
                             <span class="oi oi-magnifying-glass"></span>
@@ -78,8 +78,8 @@
                         </div>
                     </div>
                 {% else %}
-                    <a class="btn btn-outline-primary" href="{{ url_for('auth.login') }}">Login</a>&nbsp;&nbsp;
-                    <a class="btn btn-primary" href="{{ url_for('auth.register') }}">Join Albumy</a>
+                    <a class="btn btn-outline-primary" href="{{ url_for('auth.login') }}">登录</a>&nbsp;&nbsp;
+                    <a class="btn btn-primary" href="{{ url_for('auth.register') }}">现在加入</a>
                 {% endif %}
                 </div>
             </div>
@@ -99,14 +99,13 @@
         {% block footer %}
             <footer>
                 <p class="float-left">
-                    <small>&copy; 2018
-                        <a href="http://greyli.com" title="Written by Grey Li">Grey Li</a> -
-                        <a href="https://github.com/greyli/albumy" title="Fork me on GitHub">GitHub</a> -
-                        <a href="http://helloflask.com" title="A HelloFlask project">HelloFlask</a>
+                    <small>&copy; 2022
+                        <a href="https://github.com/tongowen/albumy" title="Fork me on GitHub">GitHub</a> -
+                        <a href="https://github.com/tongowen" title="A HelloFlask project">owen</a>
                     </small>
                 </p>
                 <p class="float-right">
-                    <small>Capture and share every wonderful moment.</small>
+                    <small>捕捉以及记录每个美好的瞬间</small>
                 </p>
             </footer>
         {% endblock %}

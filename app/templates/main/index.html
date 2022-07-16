@@ -2,7 +2,7 @@
 {% from 'bootstrap/pagination.html' import render_pagination %}
 {% from 'macros.html' import photo_card with context %}
 
-{% block title %}Home{% endblock %}
+{% block title %}主页{% endblock %}
 
 {% block content %}
 {% if current_user.is_authenticated %}
@@ -89,12 +89,17 @@
     <div class="jumbotron">
         <div class="row">
             <div class="col-md-8">
-                <img src="{{ url_for('static', filename='images/index.jpg') }}" class="rounded img-fluid">
+                <img 
+					src="{{ url_for('static', filename='images/index.jpg') }}" 
+					class="rounded img-fluid"
+					height="100%" 
+					width="100%"
+				>
             </div>
             <div class="col-md-4 align-self-center">
-                <h1>Albumy</h1>
-                <p>Capture and remember every wonderful moment.</p>
-                <p><a class="btn btn-primary btn-lg" href="{{ url_for('auth.register') }}">Join Now</a></p>
+                <h1>篮球之境</h1>
+                <p>捕捉以及记录每个美好的瞬间</p>
+                <p><a class="btn btn-primary btn-lg" href="{{ url_for('auth.register') }}">现在加入</a></p>
             </div>
         </div>
     </div>

@@ -160,7 +160,7 @@ def photo_next(photo_id):
     photo_n = Photo.query.with_parent(photo.author).filter(Photo.id < photo_id).order_by(Photo.id.desc()).first()
 
     if photo_n is None:
-        flash('This is already the last one.', 'info')
+        flash('这已经是最后一张了！', 'info')
         return redirect(url_for('.show_photo', photo_id=photo_id))
     return redirect(url_for('.show_photo', photo_id=photo_n.id))
 

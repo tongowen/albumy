@@ -118,7 +118,7 @@ def register_commands(app):
 
     @app.cli.command()
     def init():
-        """Initialize Albumy."""
+        """Initialize 篮球之境."""
         click.echo('Initializing the database...')
         db.create_all()
 

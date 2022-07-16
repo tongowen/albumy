@@ -30,7 +30,7 @@ class BaseConfig:
     ALBUMY_MANAGE_TAG_PER_PAGE = 50
     ALBUMY_MANAGE_COMMENT_PER_PAGE = 30
     ALBUMY_SEARCH_RESULT_PER_PAGE = 20
-    ALBUMY_MAIL_SUBJECT_PREFIX = '[Albumy]'
+    ALBUMY_MAIL_SUBJECT_PREFIX = '[篮球之境]'
     ALBUMY_UPLOAD_PATH = os.path.join(basedir, 'uploads')
     ALBUMY_PHOTO_SIZE = {'small': 400,
                          'medium': 800}
@@ -54,7 +54,7 @@ class BaseConfig:
     MAIL_USE_SSL = False
     MAIL_USERNAME = "846565422@qq.com"
     MAIL_PASSWORD = os.getenv('MAIL_PASSWORD') #
-    MAIL_DEFAULT_SENDER = ('Albumy Admin', MAIL_USERNAME)
+    MAIL_DEFAULT_SENDER = ('篮球之境 Admin', MAIL_USERNAME)
 
     DROPZONE_ALLOWED_FILE_TYPE = 'image'
     DROPZONE_MAX_FILE_SIZE = 3
