@@ -28,7 +28,7 @@ def login():
         user = User.query.filter_by(email=form.email.data.lower()).first()
         if user is not None and user.validate_password(form.password.data):
             if login_user(user, form.remember_me.data):
-                flash('Login success.', 'info')
+                flash('登录成功！', 'info')
                 return redirect_back()
             else:
                 flash('Your account is blocked.', 'warning')
@@ -54,7 +54,7 @@ def re_authenticate():
 @login_required
 def logout():
     logout_user()
-    flash('Logout success.', 'info')
+    flash('登出成功!', 'info')
     return redirect(url_for('main.index'))
 
 
@@ -87,7 +87,7 @@ def confirm(token):
         return redirect(url_for('main.index'))
 
     if validate_token(user=current_user, token=token, operation=Operations.CONFIRM):
-        flash('Account confirmed.', 'success')
+        flash('已确认账户', 'success')
         return redirect(url_for('main.index'))
     else:
         flash('Invalid or expired token.', 'danger')
@@ -102,7 +102,7 @@ def resend_confirm_email():
 
     token = generate_token(user=current_user, operation=Operations.CONFIRM)
     send_confirm_email(user=current_user, token=token)
-    flash('New email sent, check your inbox.', 'info')
+    flash('新的邮件已发送，请检查你的收件箱', 'info')
     return redirect(url_for('main.index'))
 
 

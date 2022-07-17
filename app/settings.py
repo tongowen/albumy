@@ -53,7 +53,7 @@ class BaseConfig:
     MAIL_PORT = 587
     MAIL_USE_SSL = False
     MAIL_USERNAME = "846565422@qq.com"
-    MAIL_PASSWORD = os.getenv('MAIL_PASSWORD') #
+    MAIL_PASSWORD = "lhkhfzdqhshkbahe" # os.getenv('MAIL_PASSWORD')
     MAIL_DEFAULT_SENDER = ('篮球之境 Admin', MAIL_USERNAME)
 
     DROPZONE_ALLOWED_FILE_TYPE = 'image'

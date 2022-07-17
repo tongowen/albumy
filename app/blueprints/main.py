@@ -100,7 +100,7 @@ def read_all_notification():
     for notification in current_user.notifications:
         notification.is_read = True
     db.session.commit()
-    flash('All notifications archived.', 'success')
+    flash('所有通知已成功阅读！', 'success')
     return redirect(url_for('.show_notifications'))
 
 

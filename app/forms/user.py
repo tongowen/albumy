@@ -15,14 +15,14 @@ from app.models import User
 
 
 class EditProfileForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired(), Length(1, 30)])
-    username = StringField('Username', validators=[DataRequired(), Length(1, 20),
+    name = StringField('昵称', validators=[DataRequired(), Length(1, 30)])
+    username = StringField('用户名', validators=[DataRequired(), Length(1, 20),
                                                    Regexp('^[a-zA-Z0-9]*$',
                                                           message='The username should contain only a-z, A-Z and 0-9.')])
-    website = StringField('Website', validators=[Optional(), Length(0, 255)])
-    location = StringField('City', validators=[Optional(), Length(0, 50)])
-    bio = TextAreaField('Bio', validators=[Optional(), Length(0, 120)])
-    submit = SubmitField()
+    website = StringField('网页', validators=[Optional(), Length(0, 255)])
+    location = StringField('城市', validators=[Optional(), Length(0, 50)])
+    bio = TextAreaField('个性签名', validators=[Optional(), Length(0, 120)])
+    submit = SubmitField('提交')
 
     def validate_username(self, field):
         if field.data != current_user.username and User.query.filter_by(username=field.data).first():
@@ -30,11 +30,11 @@ class EditProfileForm(FlaskForm):
 
 
 class UploadAvatarForm(FlaskForm):
-    image = FileField('Upload', validators=[
+    image = FileField('上传', validators=[
         FileRequired(),
-        FileAllowed(['jpg', 'png'], 'The file format should be .jpg or .png.')
+        FileAllowed(['jpg', 'png'], '上传的文件格式必须为jpg或png')
     ])
-    submit = SubmitField()
+    submit = SubmitField('提交')
 
 
 class CropAvatarForm(FlaskForm):
@@ -42,7 +42,7 @@ class CropAvatarForm(FlaskForm):
     y = HiddenField()
     w = HiddenField()
     h = HiddenField()
-    submit = SubmitField('Crop and Update')
+    submit = SubmitField('裁剪并更新')
 
 
 class ChangeEmailForm(FlaskForm):
