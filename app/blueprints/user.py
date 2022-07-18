@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-    :author: Grey Li (李辉)
-    :url: http://greyli.com
-    :copyright: © 2018 Grey Li <withlihui@gmail.com>
-    :license: MIT, see LICENSE for more details.
-"""
+
 from flask import render_template, flash, redirect, url_for, current_app, request, Blueprint
 from flask_login import login_required, current_user, fresh_login_required, logout_user
 
@@ -157,7 +152,7 @@ def crop_avatar():
         current_user.avatar_m = filenames[1]
         current_user.avatar_l = filenames[2]
         db.session.commit()
-        flash('Avatar updated.', 'success')
+        flash('头像已更新！', 'success')
     flash_errors(form)
     return redirect(url_for('.change_avatar'))
 
@@ -209,7 +204,7 @@ def notification_setting():
         current_user.receive_comment_notification = form.receive_comment_notification.data
         current_user.receive_follow_notification = form.receive_follow_notification.data
         db.session.commit()
-        flash('Notification settings updated.', 'success')
+        flash('通知设置已更新！', 'success')
         return redirect(url_for('.index', username=current_user.username))
     form.receive_collect_notification.data = current_user.receive_collect_notification
     form.receive_comment_notification.data = current_user.receive_comment_notification
@@ -224,7 +219,7 @@ def privacy_setting():
     if form.validate_on_submit():
         current_user.public_collections = form.public_collections.data
         db.session.commit()
-        flash('Privacy settings updated.', 'success')
+        flash('隐私设置已更新！', 'success')
         return redirect(url_for('.index', username=current_user.username))
     form.public_collections.data = current_user.public_collections
     return render_template('user/settings/edit_privacy.html', form=form)

@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-    :author: Grey Li (李辉)
-    :url: http://greyli.com
-    :copyright: © 2018 Grey Li <withlihui@gmail.com>
-    :license: MIT, see LICENSE for more details.
-"""
+
 from flask import render_template, jsonify, Blueprint
 from flask_login import current_user
 
@@ -91,17 +86,17 @@ def follow(username):
     current_user.follow(user)
     if user.receive_collect_notification:
         push_follow_notification(follower=current_user, receiver=user)
-    return jsonify(message='User followed.')
+    return jsonify(message='关注成功')
 
 
 @ajax_bp.route('/unfollow/<username>', methods=['POST'])
 def unfollow(username):
     if not current_user.is_authenticated:
-        return jsonify(message='Login required.'), 403
+        return jsonify(message='请先登录'), 403
 
     user = User.query.filter_by(username=username).first_or_404()
     if not current_user.is_following(user):
-        return jsonify(message='Not follow yet.'), 400
+        return jsonify(message='还没有关注'), 400
 
     current_user.unfollow(user)
-    return jsonify(message='Follow canceled.')
+    return jsonify(message='取消关注')

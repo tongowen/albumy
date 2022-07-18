@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-    :author: Grey Li (李辉)
-    :url: http://greyli.com
-    :copyright: © 2018 Grey Li <withlihui@gmail.com>
-    :license: MIT, see LICENSE for more details.
-"""
+
 import os
 
 from flask import render_template, flash, redirect, url_for, current_app, \
@@ -224,7 +219,7 @@ def report_photo(photo_id):
     photo = Photo.query.get_or_404(photo_id)
     photo.flag += 1
     db.session.commit()
-    flash('Photo reported.', 'success')
+    flash('举报成功！', 'success')
     return redirect(url_for('.show_photo', photo_id=photo.id))
 
 
@@ -274,7 +269,7 @@ def new_comment(photo_id):
                 push_comment_notification(photo_id=photo.id, receiver=comment.replied.author)
         db.session.add(comment)
         db.session.commit()
-        flash('Comment published.', 'success')
+        flash('已成功发布评论！', 'success')
 
         if current_user != photo.author and photo.author.receive_comment_notification:
             push_comment_notification(photo_id, receiver=photo.author, page=page)

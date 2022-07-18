@@ -31,7 +31,7 @@
                             {{ comment.author.name }}
                         </a>
                         {% if comment.author == photo.author %}
-                            <span class="badge badge-light">Author</span>
+                            <span class="badge badge-light">作者</span>
                         {% endif %}
                         <small data-toggle="tooltip" data-placement="top" data-timestamp="{{ comment.timestamp }}"
                                data-delay="500">
@@ -49,14 +49,14 @@
                                 {% if current_user != comment.author %}
                                     <a class="dropdown-item btn"
                                        href="{{ url_for('.reply_comment', comment_id=comment.id) }}">
-                                    <span class="oi oi-comment-square"></span> Reply
+                                    <span class="oi oi-comment-square"></span> 回复
                                 </a>
                                 {% endif %}
                                 {% if current_user == comment.author or current_user == photo.author or current_user.can('MODERATE') %}
                                     <a class="dropdown-item" data-toggle="modal" href="#!"
                                        data-href="{{ url_for('.delete_comment', comment_id=comment.id) }}"
                                        data-target="#confirm-delete">
-                                    <span class="oi oi-trash" aria-hidden="true"></span> Delete
+                                    <span class="oi oi-trash" aria-hidden="true"></span> 删除
                                   </a>
                                 {% endif %}
                                 {% if current_user != comment.author %}
@@ -64,7 +64,7 @@
                                       action="{{ url_for('.report_comment', comment_id=comment.id) }}">
                                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                     <button type="submit" class="dropdown-item">
-                                        <span class="oi oi-warning" aria-hidden="true"></span> Report
+                                        <span class="oi oi-warning" aria-hidden="true"></span> 举报
                                       </button>
                                 </form>
                                 {% endif %}
@@ -75,7 +75,7 @@
                     </h6>
                     <p>
                         {% if comment.replied %}
-                            Reply
+                            回复
                             <a href="{{ url_for('user.index', username=comment.replied.author.username) }}">{{ comment.replied.author.name }}</a>:
                         {% endif %}
                         {{ comment.body }}
@@ -96,8 +96,8 @@
             {% if current_user.can('COMMENT') %}
                 {% if request.args.get('reply') %}
                     <div class="alert alert-dark">
-                        Reply to {{ request.args.get('author') }}:
-                        <a class="float-right" href="{{ url_for('.show_photo', photo_id=photo.id) }}">Cancel</a>
+                        回复 {{ request.args.get('author') }}:
+                        <a class="float-right" href="{{ url_for('.show_photo', photo_id=photo.id) }}">取消</a>
                     </div>
                 {% endif %}
                 <div class="comment-form-area">

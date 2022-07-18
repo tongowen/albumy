@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-    :author: Grey Li (李辉)
-    :url: http://greyli.com
-    :copyright: © 2018 Grey Li <withlihui@gmail.com>
-    :license: MIT, see LICENSE for more details.
-"""
+
 from flask_login import current_user
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed, FileRequired
@@ -46,38 +41,38 @@ class CropAvatarForm(FlaskForm):
 
 
 class ChangeEmailForm(FlaskForm):
-    email = StringField('New Email', validators=[DataRequired(), Length(1, 254), Email()])
-    submit = SubmitField()
+    email = StringField('新邮箱', validators=[DataRequired(), Length(1, 254), Email()])
+    submit = SubmitField('提交')
 
     def validate_email(self, field):
         if User.query.filter_by(email=field.data.lower()).first():
-            raise ValidationError('The email is already in use.')
+            raise ValidationError('这个邮箱已被占用！')
 
 
 class ChangePasswordForm(FlaskForm):
-    old_password = PasswordField('Old Password', validators=[DataRequired()])
-    password = PasswordField('New Password', validators=[
+    old_password = PasswordField('旧密码', validators=[DataRequired()])
+    password = PasswordField('新密码', validators=[
         DataRequired(), Length(8, 128), EqualTo('password2')])
-    password2 = PasswordField('Confirm Password', validators=[DataRequired()])
-    submit = SubmitField()
+    password2 = PasswordField('确认密码', validators=[DataRequired()])
+    submit = SubmitField('提交')
 
 
 class NotificationSettingForm(FlaskForm):
-    receive_comment_notification = BooleanField('New comment')
-    receive_follow_notification = BooleanField('New follower')
-    receive_collect_notification = BooleanField('New collector')
-    submit = SubmitField()
+    receive_comment_notification = BooleanField('新的评论')
+    receive_follow_notification = BooleanField('新的粉丝')
+    receive_collect_notification = BooleanField('新的点赞')
+    submit = SubmitField('提交')
 
 
 class PrivacySettingForm(FlaskForm):
-    public_collections = BooleanField('Public my collection')
-    submit = SubmitField()
+    public_collections = BooleanField('公开我的点赞')
+    submit = SubmitField('提交')
 
 
 class DeleteAccountForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(1, 20)])
-    submit = SubmitField()
+    username = StringField('用户名', validators=[DataRequired(), Length(1, 20)])
+    submit = SubmitField('提交')
 
     def validate_username(self, field):
         if field.data != current_user.username:
-            raise ValidationError('Wrong username.')
+            raise ValidationError('用户名不匹配！')
