@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-    :author: Grey Li (李辉)
-    :url: http://greyli.com
-    :copyright: © 2018 Grey Li <withlihui@gmail.com>
-    :license: MIT, see LICENSE for more details.
-"""
+
 from flask import render_template, flash, redirect, url_for, Blueprint
 from flask_login import login_user, logout_user, login_required, current_user, login_fresh, confirm_login
 
@@ -31,9 +26,9 @@ def login():
                 flash('登录成功！', 'info')
                 return redirect_back()
             else:
-                flash('Your account is blocked.', 'warning')
+                flash('你的账号已被拉黑！', 'warning')
                 return redirect(url_for('main.index'))
-        flash('Invalid email or password.', 'warning')
+        flash('非法的邮箱或密码！', 'warning')
     return render_template('auth/login.html', form=form)
 
 
@@ -75,7 +70,7 @@ def register():
         db.session.commit()
         token = generate_token(user=user, operation='confirm')
         send_confirm_email(user=user, token=token)
-        flash('Confirm email sent, check your inbox.', 'info')
+        flash('确认邮件已发送，请检查你的收件箱！', 'info')
         return redirect(url_for('.login'))
     return render_template('auth/register.html', form=form)
 
@@ -87,10 +82,10 @@ def confirm(token):
         return redirect(url_for('main.index'))
 
     if validate_token(user=current_user, token=token, operation=Operations.CONFIRM):
-        flash('已确认账户', 'success')
+        flash('已确认账户！', 'success')
         return redirect(url_for('main.index'))
     else:
-        flash('Invalid or expired token.', 'danger')
+        flash('你的登录已过期或非法！', 'danger')
         return redirect(url_for('.resend_confirm_email'))
 
 
@@ -102,7 +97,7 @@ def resend_confirm_email():
 
     token = generate_token(user=current_user, operation=Operations.CONFIRM)
     send_confirm_email(user=current_user, token=token)
-    flash('新的邮件已发送，请检查你的收件箱', 'info')
+    flash('新的邮件已发送，请检查你的收件箱！', 'info')
     return redirect(url_for('main.index'))
 
 
@@ -117,9 +112,9 @@ def forget_password():
         if user:
             token = generate_token(user=user, operation=Operations.RESET_PASSWORD)
             send_reset_password_email(user=user, token=token)
-            flash('Password reset email sent, check your inbox.', 'info')
+            flash('密码重置邮件已发送，请检查你的收件箱！', 'info')
             return redirect(url_for('.login'))
-        flash('Invalid email.', 'warning')
+        flash('非法的邮件！', 'warning')
         return redirect(url_for('.forget_password'))
     return render_template('auth/reset_password.html', form=form)
 
@@ -136,9 +131,9 @@ def reset_password(token):
             return redirect(url_for('main.index'))
         if validate_token(user=user, token=token, operation=Operations.RESET_PASSWORD,
                           new_password=form.password.data):
-            flash('Password updated.', 'success')
+            flash('密码已更新！', 'success')
             return redirect(url_for('.login'))
         else:
-            flash('Invalid or expired link.', 'danger')
+            flash('非法或过期的链接！', 'danger')
             return redirect(url_for('.forget_password'))
     return render_template('auth/reset_password.html', form=form)

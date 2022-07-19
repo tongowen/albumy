@@ -1,30 +1,33 @@
 {% extends 'admin/index.html' %}
 {% from 'bootstrap/pagination.html' import render_pagination %}
 
-{% block title %}Manage Comments{% endblock %}
+{% block title %}管理评论{% endblock %}
 
 {% block content %}
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            {{ render_breadcrumb_item('admin.index', 'Dashboard Home') }}
-            {{ render_breadcrumb_item('admin.manage_comment', 'Manage Comment') }}
+            {{ render_breadcrumb_item('admin.index', '管理面板') }}
+            {{ render_breadcrumb_item('admin.manage_comment', '管理评论') }}
         </ol>
     </nav>
     <div class="page-header">
-        <h1>Comments
+        <h1>评论
             <small class="text-muted">{{ pagination.total }}</small>
             <span class="dropdown">
             <button class="btn btn-secondary btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
-                Order by {{ order_rule }} <span class="oi oi-elevator"></span>
+                {% if order_rule == 'flag' %}
+                    按标签排序
+                {% else %}
+					按时间排序
+                {% endif %}
+				<span class="oi oi-elevator"></span>
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 {% if order_rule == 'flag' %}
-                    <a class="dropdown-item" href="{{ url_for('.manage_comment', order='by_time') }}">Order by
-                    Time</a>
+                    <a class="dropdown-item" href="{{ url_for('.manage_comment', order='by_time') }}">按时间排序</a>
                 {% else %}
-                    <a class="dropdown-item" href="{{ url_for('.manage_comment', order='by_flag') }}">Order by
-                    Flag</a>
+                    <a class="dropdown-item" href="{{ url_for('.manage_comment', order='by_flag') }}">按标签排序</a>
                 {% endif %}
             </div>
         </span>
@@ -34,12 +37,12 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>Body</th>
-                <th>Author</th>
-                <th>Image</th>
-                <th>Reported</th>
-                <th>Date</th>
-                <th>Actions</th>
+                <th>内容</th>
+                <th>作者</th>
+                <th>图片</th>
+                <th>已举报</th>
+                <th>时间</th>
+                <th>动作</th>
             </tr>
             </thead>
             {% for comment in comments %}
@@ -58,7 +61,7 @@
                               action="{{ url_for('main.delete_comment', comment_id=comment.id, next=request.full_path) }}">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                             <button type="submit" class="btn btn-danger btn-sm"
-                                    onclick="return confirm('Are you sure?');">删除
+                                    onclick="return confirm('你确定吗？');">删除
                             </button>
                         </form>
                     </td>
@@ -67,6 +70,6 @@
         </table>
         <div class="page-footer">{{ render_pagination(pagination) }}</div>
     {% else %}
-        <div class="tip"><h5>暂无评论</h5></div>
+        <div class="tip"><h5>暂无评论！</h5></div>
     {% endif %}
 {% endblock %}

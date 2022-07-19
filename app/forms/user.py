@@ -13,7 +13,7 @@ class EditProfileForm(FlaskForm):
     name = StringField('昵称', validators=[DataRequired(), Length(1, 30)])
     username = StringField('用户名', validators=[DataRequired(), Length(1, 20),
                                                    Regexp('^[a-zA-Z0-9]*$',
-                                                          message='The username should contain only a-z, A-Z and 0-9.')])
+                                                          message='用户名应该只包含 a-z, A-Z and 0-9.')])
     website = StringField('网页', validators=[Optional(), Length(0, 255)])
     location = StringField('城市', validators=[Optional(), Length(0, 50)])
     bio = TextAreaField('个性签名', validators=[Optional(), Length(0, 120)])
@@ -21,7 +21,7 @@ class EditProfileForm(FlaskForm):
 
     def validate_username(self, field):
         if field.data != current_user.username and User.query.filter_by(username=field.data).first():
-            raise ValidationError('The username is already in use.')
+            raise ValidationError('该用户名已被占用！')
 
 
 class UploadAvatarForm(FlaskForm):

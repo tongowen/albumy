@@ -72,7 +72,7 @@
                 <form action="{{ url_for('.new_tag', photo_id=photo.id) }}" method="post">
                     {{ tag_form.csrf_token }}
                     {{ render_field(tag_form.tag) }}
-                    <a class="btn btn-light btn-sm" id="cancel-tag">Cancel</a>
+                    <a class="btn btn-light btn-sm" id="cancel-tag">取消</a>
                     {{ render_field(tag_form.submit, class='btn btn-success btn-sm') }}
                 </form>
                 {% if photo.tags %}
@@ -80,7 +80,7 @@
                     {% for tag in photo.tags %}
                         <a class="dead-link" href="#!"
                            data-href="{{ url_for('.delete_tag', photo_id=photo.id, tag_id=tag.id) }}"
-                           data-toggle="modal" data-target="#confirm-delete" title="Delete tag">
+                           data-toggle="modal" data-target="#confirm-delete" title="删除标签">
                 <span class="badge badge-danger">
                 {{ tag.name }} <span class="oi oi-trash" aria-hidden="true"></span>
             </span>

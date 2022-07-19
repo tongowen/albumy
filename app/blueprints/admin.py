@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-    :author: Grey Li (李辉)
-    :url: http://greyli.com
-    :copyright: © 2018 Grey Li <withlihui@gmail.com>
-    :license: MIT, see LICENSE for more details.
-"""
+
 from flask import render_template, flash, Blueprint, request, current_app
 from flask_login import login_required
 
@@ -55,7 +50,7 @@ def edit_profile_admin(user_id):
         user.username = form.username.data
         user.email = form.email.data
         db.session.commit()
-        flash('Profile updated.', 'success')
+        flash('个人资料已更新！', 'success')
         return redirect_back()
     form.name.data = user.name
     form.role.data = user.role_id
@@ -75,10 +70,10 @@ def edit_profile_admin(user_id):
 def block_user(user_id):
     user = User.query.get_or_404(user_id)
     if user.role.name in ['Administrator', 'Moderator']:
-        flash('Permission denied.', 'warning')
+        flash('权限不足！', 'warning')
     else:
         user.block()
-        flash('Account blocked.', 'info')
+        flash('已拉黑该账号！', 'info')
     return redirect_back()
 
 
@@ -88,7 +83,7 @@ def block_user(user_id):
 def unblock_user(user_id):
     user = User.query.get_or_404(user_id)
     user.unblock()
-    flash('Block canceled.', 'info')
+    flash('已取消拉黑！', 'info')
     return redirect_back()
 
 
@@ -98,10 +93,10 @@ def unblock_user(user_id):
 def lock_user(user_id):
     user = User.query.get_or_404(user_id)
     if user.role.name in ['Administrator', 'Moderator']:
-        flash('Permission denied.', 'warning')
+        flash('权限不足！', 'warning')
     else:
         user.lock()
-        flash('Account locked.', 'info')
+        flash('账号已锁定！', 'info')
     return redirect_back()
 
 
@@ -111,7 +106,7 @@ def lock_user(user_id):
 def unlock_user(user_id):
     user = User.query.get_or_404(user_id)
     user.unlock()
-    flash('Lock canceled.', 'info')
+    flash('已取消锁定！', 'info')
     return redirect_back()
 
 
@@ -122,7 +117,7 @@ def delete_tag(tag_id):
     tag = Tag.query.get_or_404(tag_id)
     db.session.delete(tag)
     db.session.commit()
-    flash('Tag deleted.', 'info')
+    flash('标签已删除！', 'info')
     return redirect_back()
 
 
@@ -132,7 +127,7 @@ def delete_tag(tag_id):
 def manage_user():
     filter_rule = request.args.get('filter', 'all')  # 'all', 'locked', 'blocked', 'administrator', 'moderator'
     page = request.args.get('page', 1, type=int)
-    per_page = current_app.config['ALBUMY_MANAGE_USER_PER_PAGE']
+    per_page = current_app.config['O_MANAGE_USER_PER_PAGE']
     administrator = Role.query.filter_by(name='Administrator').first()
     moderator = Role.query.filter_by(name='Moderator').first()
 
@@ -158,7 +153,7 @@ def manage_user():
 @permission_required('MODERATE')
 def manage_photo(order):
     page = request.args.get('page', 1, type=int)
-    per_page = current_app.config['ALBUMY_MANAGE_PHOTO_PER_PAGE']
+    per_page = current_app.config['O_MANAGE_PHOTO_PER_PAGE']
     order_rule = 'flag'
     if order == 'by_time':
         pagination = Photo.query.order_by(Photo.timestamp.desc()).paginate(page, per_page)
@@ -174,7 +169,7 @@ def manage_photo(order):
 @permission_required('MODERATE')
 def manage_tag():
     page = request.args.get('page', 1, type=int)
-    per_page = current_app.config['ALBUMY_MANAGE_TAG_PER_PAGE']
+    per_page = current_app.config['O_MANAGE_TAG_PER_PAGE']
     pagination = Tag.query.order_by(Tag.id.desc()).paginate(page, per_page)
     tags = pagination.items
     return render_template('admin/manage_tag.html', pagination=pagination, tags=tags)
@@ -186,7 +181,7 @@ def manage_tag():
 @permission_required('MODERATE')
 def manage_comment(order):
     page = request.args.get('page', 1, type=int)
-    per_page = current_app.config['ALBUMY_MANAGE_COMMENT_PER_PAGE']
+    per_page = current_app.config['O_MANAGE_COMMENT_PER_PAGE']
     order_rule = 'flag'
     if order == 'by_time':
         pagination = Comment.query.order_by(Comment.timestamp.desc()).paginate(page, per_page)

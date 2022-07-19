@@ -6,9 +6,9 @@
             {% if current_user.is_authenticated %}
                 {% if current_user != user and current_user.is_followed_by(user) %}
                     {% if user.is_followed_by(current_user) %}
-                        <span class="badge badge-light">Follow each other</span>
+                        <span class="badge badge-light">互相关注</span>
                     {% else %}
-                        <span class="badge badge-light">Follows you</span>
+                        <span class="badge badge-light">正在关注你</span>
                     {% endif %}
                 {% endif %}
             {% endif %}

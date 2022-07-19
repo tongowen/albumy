@@ -25,8 +25,8 @@ flask run #
 
 Test account:
 
-* email: `admin@helloflask.com`
-* password: `helloflask`
+* email: `admin@owen.com`
+* password: `123456`
 
 ## License
 

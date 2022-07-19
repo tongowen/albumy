@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-    :author: Grey Li (李辉)
-    :url: http://greyli.com
-    :copyright: © 2018 Grey Li <withlihui@gmail.com>
-    :license: MIT, see LICENSE for more details.
-"""
+
 import os
 import uuid
 
@@ -76,8 +71,8 @@ def resize_image(image, filename, base_width):
     h_size = int((float(img.size[1]) * float(w_percent)))
     img = img.resize((base_width, h_size), PIL.Image.ANTIALIAS)
 
-    filename += current_app.config['ALBUMY_PHOTO_SUFFIX'][base_width] + ext
-    img.save(os.path.join(current_app.config['ALBUMY_UPLOAD_PATH'], filename), optimize=True, quality=85)
+    filename += current_app.config['O_PHOTO_SUFFIX'][base_width] + ext
+    img.save(os.path.join(current_app.config['O_UPLOAD_PATH'], filename), optimize=True, quality=85)
     return filename
 
 

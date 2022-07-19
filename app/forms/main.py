@@ -6,13 +6,13 @@ from wtforms.validators import DataRequired, Optional, Length
 
 
 class DescriptionForm(FlaskForm):
-    description = TextAreaField('Description', validators=[Optional(), Length(0, 500)])
-    submit = SubmitField()
+    description = TextAreaField('描述', validators=[Optional(), Length(0, 500)])
+    submit = SubmitField('提交')
 
 
 class TagForm(FlaskForm):
-    tag = StringField('Add Tag (use space to separate)', validators=[Optional(), Length(0, 64)])
-    submit = SubmitField()
+    tag = StringField('添加标签（使用空格键来分割标签）', validators=[Optional(), Length(0, 64)])
+    submit = SubmitField('提交')
 
 
 class CommentForm(FlaskForm):

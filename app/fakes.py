@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-    :author: Grey Li (李辉)
-    :url: http://greyli.com
-    :copyright: © 2018 Grey Li <withlihui@gmail.com>
-    :license: MIT, see LICENSE for more details.
-"""
+
 import os
 import random
 
@@ -20,14 +15,14 @@ fake = Faker()
 
 
 def fake_admin():
-    admin = User(name='Grey Li',
-                 username='greyli',
-                 email='admin@helloflask.com',
+    admin = User(name='Owen',
+                 username='owen',
+                 email='admin@owen.com',
                  bio=fake.sentence(),
-                 website='http://greyli.com',
+                 website='http://github.com/tongowen',
                  confirmed=True)
-    admin.set_password('helloflask')
-    notification = Notification(message='Hello, welcome to 篮球之境.', receiver=admin)
+    admin.set_password('123456')
+    notification = Notification(message='你好, 欢迎来到 篮球之境！', receiver=admin)
     db.session.add(notification)
     db.session.add(admin)
     db.session.commit()
@@ -70,7 +65,7 @@ def fake_tag(count=20):
 
 def fake_photo(count=30):
     # photos
-    upload_path = current_app.config['ALBUMY_UPLOAD_PATH']
+    upload_path = current_app.config['O_UPLOAD_PATH']
     for i in range(count):
         print(i)
 

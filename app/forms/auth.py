@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-    :author: Grey Li (李辉)
-    :url: http://greyli.com
-    :copyright: © 2018 Grey Li <withlihui@gmail.com>
-    :license: MIT, see LICENSE for more details.
-"""
+
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms import ValidationError
@@ -25,7 +20,7 @@ class RegisterForm(FlaskForm):
     email = StringField('邮箱', validators=[DataRequired(), Length(1, 254), Email()])
     username = StringField('用户名', validators=[DataRequired(), Length(1, 20),
                                                    Regexp('^[a-zA-Z0-9]*$',
-                                                          message='The username should contain only a-z, A-Z and 0-9.')])
+                                                          message='用户名应该只包含 a-z, A-Z and 0-9.')])
     password = PasswordField('密码', validators=[
         DataRequired(), Length(8, 128), EqualTo('password2')])
     password2 = PasswordField('确认密码', validators=[DataRequired()])
@@ -33,11 +28,11 @@ class RegisterForm(FlaskForm):
 
     def validate_email(self, field):
         if User.query.filter_by(email=field.data.lower()).first():
-            raise ValidationError('该邮箱已被占用。')
+            raise ValidationError('该邮箱已被占用！')
 
     def validate_username(self, field):
         if User.query.filter_by(username=field.data).first():
-            raise ValidationError('该用户名已被占用。')
+            raise ValidationError('该用户名已被占用！')
 
 
 class ForgetPasswordForm(FlaskForm):

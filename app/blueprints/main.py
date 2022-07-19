@@ -21,7 +21,7 @@ main_bp = Blueprint('main', __name__)
 def index():
     if current_user.is_authenticated:
         page = request.args.get('page', 1, type=int)
-        per_page = current_app.config['ALBUMY_PHOTO_PER_PAGE']
+        per_page = current_app.config['O_PHOTO_PER_PAGE']
         pagination = Photo.query \
             .join(Follow, Follow.followed_id == Photo.author_id) \
             .filter(Follow.follower_id == current_user.id) \
@@ -45,12 +45,12 @@ def explore():
 def search():
     q = request.args.get('q', '').strip()
     if q == '':
-        flash('Enter keyword about photo, user or tag.', 'warning')
+        flash('给照片添加关键字：用户名或者标签', 'warning')
         return redirect_back()
 
     category = request.args.get('category', 'photo')
     page = request.args.get('page', 1, type=int)
-    per_page = current_app.config['ALBUMY_SEARCH_RESULT_PER_PAGE']
+    per_page = current_app.config['O_SEARCH_RESULT_PER_PAGE']
     if category == 'user':
         pagination = User.query.whooshee_search(q).paginate(page, per_page)
     elif category == 'tag':
@@ -65,7 +65,7 @@ def search():
 @login_required
 def show_notifications():
     page = request.args.get('page', 1, type=int)
-    per_page = current_app.config['ALBUMY_NOTIFICATION_PER_PAGE']
+    per_page = current_app.config['O_NOTIFICATION_PER_PAGE']
     notifications = Notification.query.with_parent(current_user)
     filter_rule = request.args.get('filter')
     if filter_rule == 'unread':
@@ -85,7 +85,7 @@ def read_notification(notification_id):
 
     notification.is_read = True
     db.session.commit()
-    flash('Notification archived.', 'success')
+    flash('通知已删除！', 'success')
     return redirect(url_for('.show_notifications'))
 
 
@@ -101,7 +101,7 @@ def read_all_notification():
 
 @main_bp.route('/uploads/<path:filename>')
 def get_image(filename):
-    return send_from_directory(current_app.config['ALBUMY_UPLOAD_PATH'], filename)
+    return send_from_directory(current_app.config['O_UPLOAD_PATH'], filename)
 
 
 @main_bp.route('/avatars/<path:filename>')
@@ -117,9 +117,9 @@ def upload():
     if request.method == 'POST' and 'file' in request.files:
         f = request.files.get('file')
         filename = rename_image(f.filename)
-        f.save(os.path.join(current_app.config['ALBUMY_UPLOAD_PATH'], filename))
-        filename_s = resize_image(f, filename, current_app.config['ALBUMY_PHOTO_SIZE']['small'])
-        filename_m = resize_image(f, filename, current_app.config['ALBUMY_PHOTO_SIZE']['medium'])
+        f.save(os.path.join(current_app.config['O_UPLOAD_PATH'], filename))
+        filename_s = resize_image(f, filename, current_app.config['O_PHOTO_SIZE']['small'])
+        filename_m = resize_image(f, filename, current_app.config['O_PHOTO_SIZE']['medium'])
         photo = Photo(
             filename=filename,
             filename_s=filename_s,
@@ -135,7 +135,7 @@ def upload():
 def show_photo(photo_id):
     photo = Photo.query.get_or_404(photo_id)
     page = request.args.get('page', 1, type=int)
-    per_page = current_app.config['ALBUMY_COMMENT_PER_PAGE']
+    per_page = current_app.config['O_COMMENT_PER_PAGE']
     pagination = Comment.query.with_parent(photo).order_by(Comment.timestamp.asc()).paginate(page, per_page)
     comments = pagination.items
 
@@ -166,7 +166,7 @@ def photo_previous(photo_id):
     photo_p = Photo.query.with_parent(photo.author).filter(Photo.id > photo_id).order_by(Photo.id.asc()).first()
 
     if photo_p is None:
-        flash('This is already the first one.', 'info')
+        flash('这已经是第一个了！', 'info')
         return redirect(url_for('.show_photo', photo_id=photo_id))
     return redirect(url_for('.show_photo', photo_id=photo_p.id))
 
@@ -178,11 +178,11 @@ def photo_previous(photo_id):
 def collect(photo_id):
     photo = Photo.query.get_or_404(photo_id)
     if current_user.is_collecting(photo):
-        flash('Already collected.', 'info')
+        flash('已点赞！', 'info')
         return redirect(url_for('.show_photo', photo_id=photo_id))
 
     current_user.collect(photo)
-    flash('Photo collected.', 'success')
+    flash('点赞成功！', 'success')
     if current_user != photo.author and photo.author.receive_collect_notification:
         push_collect_notification(collector=current_user, photo_id=photo_id, receiver=photo.author)
     return redirect(url_for('.show_photo', photo_id=photo_id))
@@ -193,11 +193,11 @@ def collect(photo_id):
 def uncollect(photo_id):
     photo = Photo.query.get_or_404(photo_id)
     if not current_user.is_collecting(photo):
-        flash('Not collect yet.', 'info')
+        flash('你还没有点赞！', 'info')
         return redirect(url_for('.show_photo', photo_id=photo_id))
 
     current_user.uncollect(photo)
-    flash('Photo uncollected.', 'info')
+    flash('已取消！', 'info')
     return redirect(url_for('.show_photo', photo_id=photo_id))
 
 
@@ -208,7 +208,7 @@ def report_comment(comment_id):
     comment = Comment.query.get_or_404(comment_id)
     comment.flag += 1
     db.session.commit()
-    flash('Comment reported.', 'success')
+    flash('已举报评论！', 'success')
     return redirect(url_for('.show_photo', photo_id=comment.photo_id))
 
 
@@ -227,7 +227,7 @@ def report_photo(photo_id):
 def show_collectors(photo_id):
     photo = Photo.query.get_or_404(photo_id)
     page = request.args.get('page', 1, type=int)
-    per_page = current_app.config['ALBUMY_USER_PER_PAGE']
+    per_page = current_app.config['O_USER_PER_PAGE']
     pagination = Collect.query.with_parent(photo).order_by(Collect.timestamp.asc()).paginate(page, per_page)
     collects = pagination.items
     return render_template('main/collectors.html', collects=collects, photo=photo, pagination=pagination)
@@ -244,7 +244,7 @@ def edit_description(photo_id):
     if form.validate_on_submit():
         photo.description = form.description.data
         db.session.commit()
-        flash('Description updated.', 'success')
+        flash('描述已更新！', 'success')
 
     flash_errors(form)
     return redirect(url_for('.show_photo', photo_id=photo_id))
@@ -296,7 +296,7 @@ def new_tag(photo_id):
             if tag not in photo.tags:
                 photo.tags.append(tag)
                 db.session.commit()
-        flash('Tag added.', 'success')
+        flash('标签已更新！', 'success')
 
     flash_errors(form)
     return redirect(url_for('.show_photo', photo_id=photo_id))
@@ -311,10 +311,10 @@ def set_comment(photo_id):
 
     if photo.can_comment:
         photo.can_comment = False
-        flash('Comment disabled', 'info')
+        flash('已禁止评论!', 'info')
     else:
         photo.can_comment = True
-        flash('Comment enabled.', 'info')
+        flash('已开启评论！', 'info')
     db.session.commit()
     return redirect(url_for('.show_photo', photo_id=photo_id))
 
@@ -338,7 +338,7 @@ def delete_photo(photo_id):
 
     db.session.delete(photo)
     db.session.commit()
-    flash('Photo deleted.', 'info')
+    flash('照片已删除！', 'info')
 
     photo_n = Photo.query.with_parent(photo.author).filter(Photo.id < photo_id).order_by(Photo.id.desc()).first()
     if photo_n is None:
@@ -358,7 +358,7 @@ def delete_comment(comment_id):
         abort(403)
     db.session.delete(comment)
     db.session.commit()
-    flash('Comment deleted.', 'info')
+    flash('评论已删除！', 'info')
     return redirect(url_for('.show_photo', photo_id=comment.photo_id))
 
 
@@ -367,7 +367,7 @@ def delete_comment(comment_id):
 def show_tag(tag_id, order):
     tag = Tag.query.get_or_404(tag_id)
     page = request.args.get('page', 1, type=int)
-    per_page = current_app.config['ALBUMY_PHOTO_PER_PAGE']
+    per_page = current_app.config['O_PHOTO_PER_PAGE']
     order_rule = 'time'
     pagination = Photo.query.with_parent(tag).order_by(Photo.timestamp.desc()).paginate(page, per_page)
     photos = pagination.items
@@ -392,5 +392,5 @@ def delete_tag(photo_id, tag_id):
         db.session.delete(tag)
         db.session.commit()
 
-    flash('Tag deleted.', 'info')
+    flash('标签已删除！', 'info')
     return redirect(url_for('.show_photo', photo_id=photo_id))
