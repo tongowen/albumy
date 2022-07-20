@@ -79,37 +79,37 @@ class Collect(db.Model):
 
 @whooshee.register_model('name', 'username')
 class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), unique=True, index=True)
-    email = db.Column(db.String(254), unique=True, index=True)
+    id            = db.Column(db.Integer, primary_key=True)
+    username      = db.Column(db.String(20), unique=True, index=True)
+    email         = db.Column(db.String(254), unique=True, index=True)
     password_hash = db.Column(db.String(128))
-    name = db.Column(db.String(30))
-    website = db.Column(db.String(255))
-    bio = db.Column(db.String(120))
-    location = db.Column(db.String(50))
-    member_since = db.Column(db.DateTime, default=datetime.utcnow)
-    avatar_s = db.Column(db.String(64))
-    avatar_m = db.Column(db.String(64))
-    avatar_l = db.Column(db.String(64))
-    avatar_raw = db.Column(db.String(64))
+    name          = db.Column(db.String(30))
+    website       = db.Column(db.String(255))
+    bio           = db.Column(db.String(120))
+    location      = db.Column(db.String(50))
+    member_since  = db.Column(db.DateTime, default=datetime.utcnow)
+    avatar_s      = db.Column(db.String(64))
+    avatar_m      = db.Column(db.String(64))
+    avatar_l      = db.Column(db.String(64))
+    avatar_raw    = db.Column(db.String(64))
 
     confirmed = db.Column(db.Boolean, default=False)
-    locked = db.Column(db.Boolean, default=False)
-    active = db.Column(db.Boolean, default=True)
+    locked    = db.Column(db.Boolean, default=False)
+    active    = db.Column(db.Boolean, default=True)
 
-    public_collections = db.Column(db.Boolean, default=True)
+    public_collections           = db.Column(db.Boolean, default=True)
     receive_comment_notification = db.Column(db.Boolean, default=True)
-    receive_follow_notification = db.Column(db.Boolean, default=True)
+    receive_follow_notification  = db.Column(db.Boolean, default=True)
     receive_collect_notification = db.Column(db.Boolean, default=True)
 
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
 
-    role = db.relationship('Role', back_populates='users')
-    photos = db.relationship('Photo', back_populates='author', cascade='all')
-    comments = db.relationship('Comment', back_populates='author', cascade='all')
+    role          = db.relationship('Role', back_populates='users')
+    photos        = db.relationship('Photo', back_populates='author', cascade='all')
+    comments      = db.relationship('Comment', back_populates='author', cascade='all')
     notifications = db.relationship('Notification', back_populates='receiver', cascade='all')
-    collections = db.relationship('Collect', back_populates='collector', cascade='all')
-    following = db.relationship('Follow', foreign_keys=[Follow.follower_id], back_populates='follower',
+    collections   = db.relationship('Collect', back_populates='collector', cascade='all')
+    following     = db.relationship('Follow', foreign_keys=[Follow.follower_id], back_populates='follower',
                                 lazy='dynamic', cascade='all')
     followers = db.relationship('Follow', foreign_keys=[Follow.followed_id], back_populates='followed',
                                 lazy='dynamic', cascade='all')
@@ -220,20 +220,20 @@ tagging = db.Table('tagging',
 
 @whooshee.register_model('description')
 class Photo(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id          = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(500))
-    filename = db.Column(db.String(64))
-    filename_s = db.Column(db.String(64))
-    filename_m = db.Column(db.String(64))
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
+    filename    = db.Column(db.String(64))
+    filename_s  = db.Column(db.String(64))
+    filename_m  = db.Column(db.String(64))
+    timestamp   = db.Column(db.DateTime, default=datetime.utcnow, index=True)
     can_comment = db.Column(db.Boolean, default=True)
-    flag = db.Column(db.Integer, default=0)
-    author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    flag        = db.Column(db.Integer, default=0)
+    author_id   = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    author = db.relationship('User', back_populates='photos')
-    comments = db.relationship('Comment', back_populates='photo', cascade='all')
+    author     = db.relationship('User', back_populates='photos')
+    comments   = db.relationship('Comment', back_populates='photo', cascade='all')
     collectors = db.relationship('Collect', back_populates='collected', cascade='all')
-    tags = db.relationship('Tag', secondary=tagging, back_populates='photos')
+    tags       = db.relationship('Tag', secondary=tagging, back_populates='photos')
 
 
 @whooshee.register_model('name')
@@ -245,25 +245,25 @@ class Tag(db.Model):
 
 
 class Comment(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    body = db.Column(db.Text)
+    id        = db.Column(db.Integer, primary_key=True)
+    body      = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
-    flag = db.Column(db.Integer, default=0)
+    flag      = db.Column(db.Integer, default=0)
 
     replied_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
-    author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    photo_id = db.Column(db.Integer, db.ForeignKey('photo.id'))
+    author_id  = db.Column(db.Integer, db.ForeignKey('user.id'))
+    photo_id   = db.Column(db.Integer, db.ForeignKey('photo.id'))
 
-    photo = db.relationship('Photo', back_populates='comments')
-    author = db.relationship('User', back_populates='comments')
+    photo   = db.relationship('Photo', back_populates='comments')
+    author  = db.relationship('User', back_populates='comments')
     replies = db.relationship('Comment', back_populates='replied', cascade='all')
     replied = db.relationship('Comment', back_populates='replies', remote_side=[id])
 
 
 class Notification(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    message = db.Column(db.Text, nullable=False)
-    is_read = db.Column(db.Boolean, default=False)
+    id        = db.Column(db.Integer, primary_key=True)
+    message   = db.Column(db.Text, nullable=False)
+    is_read   = db.Column(db.Boolean, default=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
 
     receiver_id = db.Column(db.Integer, db.ForeignKey('user.id'))
